@@ -18,9 +18,16 @@
 
 package com.home.shield;
 
+import com.home.shield.tts.TTSEngine;
+
 public class Executor {
 
     public static void main(String[] args) {
-        System.out.println("Home Shield Activated..!");
+
+        String msg = "Home Shield Activated..!";
+        System.out.println(msg);
+        TTSEngine ttsEngine = TTSEngine.getInstance();
+        ttsEngine.doSpeak(msg);
+        ttsEngine.terminate();
     }
 }
