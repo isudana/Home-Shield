@@ -1,33 +1,24 @@
-/*
- * Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
- *
- * WSO2 Inc. licenses this file to you under the Apache License,
- * Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-
 package com.home.shield;
 
-import com.home.shield.tts.TTSEngine;
+import com.home.shield.sensors.SensorsStore;
+import com.home.shield.sensors.pirs.PIRSensor;
+import com.home.shield.serial.SerialCommunicator;
 
 public class Executor {
 
     public static void main(String[] args) {
 
-        String msg = "Home Shield Activated..!";
-        System.out.println(msg);
-        TTSEngine ttsEngine = TTSEngine.getInstance();
-        ttsEngine.doSpeak(msg);
-        ttsEngine.terminate();
+        new EventHandler().handleEvents();
+        SensorsStore.getInstance().registerSensor(RFCodes.PIR1, new PIRSensor("ground-right.mp3", "Ground_Right"));
+
+        while (true) {
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                //Ignore
+            }
+        }
+
     }
+
 }
